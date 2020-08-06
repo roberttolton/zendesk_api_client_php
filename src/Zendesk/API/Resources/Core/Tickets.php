@@ -10,6 +10,7 @@ use Zendesk\API\Traits\Resource\Defaults;
 use Zendesk\API\Traits\Resource\DeleteMany;
 use Zendesk\API\Traits\Resource\FindMany;
 use Zendesk\API\Traits\Resource\UpdateMany;
+use Zendesk\API\Traits\Resource\FindIncremental;
 use Zendesk\API\Traits\Utility\InstantiatorTrait;
 
 /**
@@ -23,7 +24,7 @@ use Zendesk\API\Traits\Utility\InstantiatorTrait;
  */
 class Tickets extends ResourceAbstract
 {
-    use InstantiatorTrait;
+    use InstantiatorTrait, FindIncremental;
 
     use Defaults {
         create as traitCreate;
@@ -98,7 +99,9 @@ class Tickets extends ResourceAbstract
             'merge'               => 'tickets/{id}/merge.json',
             'problems'            => 'problems.json',
             'export'              => 'exports/tickets.json',
-            'problemAutoComplete' => 'problems/autocomplete.json'
+            'problemAutoComplete' => 'problems/autocomplete.json',
+            'findIncremental'     => 'incremental/tickets.json',
+            'findAll'             => 'tickets.json'
         ]);
     }
 
