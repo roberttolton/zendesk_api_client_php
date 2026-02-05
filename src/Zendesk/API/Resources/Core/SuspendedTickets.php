@@ -30,6 +30,7 @@ class SuspendedTickets extends ResourceAbstract
         $this->setRoutes([
             'recover'     => "{$this->resourceName}/{id}/recover.json",
             'recoverMany' => "{$this->resourceName}/recover_many.json",
+            'attachments' => "{$this->resourceName}/{id}/attachments.json",
         ]);
     }
 
@@ -77,6 +78,34 @@ class SuspendedTickets extends ResourceAbstract
             [
                 'method'      => 'PUT',
                 'queryParams' => ['ids' => implode(',', $ids)],
+            ]
+        );
+
+        return $response;
+    }
+
+    /**
+     * Getting attachment tokens.
+     *
+     * @param int $ids
+     *
+     * @return \stdClass | null
+     * @throws MissingParametersException
+     * @throws \Zendesk\API\Exceptions\ApiResponseException
+     * @throws \Zendesk\API\Exceptions\RouteException
+     *
+     */
+    public function attachments($id = null)
+    {
+        if (empty($id)) {
+            throw new MissingParametersException(__METHOD__, ['id']);
+        }
+
+        $response = Http::send(
+            $this->client,
+            $this->getRoute(__FUNCTION__, ['id' => $id]),
+            [
+                'method'      => 'POST',
             ]
         );
 
